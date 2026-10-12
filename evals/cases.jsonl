@@ -1,0 +1,8 @@
+{"id":"billing-duplicate-charge","text":"I was charged twice for my monthly subscription this morning. Please fix this immediately.","expected_category":"billing","expected_urgency":"high"}
+{"id":"billing-refund-question","text":"Could you tell me when I should expect my refund for last week's cancellation?","expected_category":"billing","expected_urgency":"low"}
+{"id":"bug-app-crash","text":"The dashboard crashes whenever I open the analytics page.","expected_category":"bug","expected_urgency":"normal"}
+{"id":"bug-login-outage","text":"Nobody on our team can sign in to the dashboard right now.","expected_category":"bug","expected_urgency":"high"}
+{"id":"feature-dark-mode","text":"It would be great to have a dark mode for the dashboard.","expected_category":"feature","expected_urgency":"low"}
+{"id":"feature-export","text":"Please add CSV export for the weekly ranking report.","expected_category":"feature","expected_urgency":"normal"}
+{"id":"other-positive-feedback","text":"Just wanted to say the onboarding guide was very helpful.","expected_category":"other","expected_urgency":"low"}
+{"id":"other-unclear-question","text":"What is the best way to get started with my account?","expected_category":"other","expected_urgency":"normal"}

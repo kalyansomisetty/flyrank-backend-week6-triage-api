@@ -14,6 +14,9 @@ venv/
 logs/*
 !logs/.gitkeep
 
+# Optional reproducible evaluation output (may contain case-level results)
+evals/results*.json
+
 # Editor and operating-system files
 .DS_Store
 .vscode/
