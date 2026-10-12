@@ -56,12 +56,15 @@ class Settings:
     app_log_level: str
 
 
-def get_settings() -> Settings:
+def get_settings(*, include_api_key: bool = True) -> Settings:
     """Load settings without printing or otherwise exposing secret values.
 
     A missing API key is allowed here so local stub and disabled modes work
     without secrets. The future live-model service must fail safely before it
     creates or calls an LLM client when live access has no configured key.
+
+    Set ``include_api_key`` to False for decisions that do not need the key,
+    such as stub mode. This avoids reading the secret unnecessarily.
     """
     load_dotenv()
 
@@ -76,7 +79,7 @@ def get_settings() -> Settings:
     if not log_level:
         raise ConfigError("APP_LOG_LEVEL must not be blank.")
 
-    api_key = os.getenv("OPENROUTER_API_KEY")
+    api_key = os.getenv("OPENROUTER_API_KEY") if include_api_key else None
     return Settings(
         openrouter_api_key=api_key.strip() if api_key else None,
         openrouter_base_url=base_url,

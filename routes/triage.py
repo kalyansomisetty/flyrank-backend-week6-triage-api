@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
+from llm.service import ServiceUnavailableError, triage_support_message
 from schemas import TriageRequest, TriageResponse
 
 
@@ -12,15 +13,12 @@ router = APIRouter()
 
 @router.post("/triage", response_model=TriageResponse)
 def triage_message(request: TriageRequest) -> TriageResponse:
-    """Return a deterministic placeholder until the LLM service is added.
+    """Triage a request using the currently configured safe service mode.
 
     FastAPI validates ``request`` against TriageRequest before this function
-    runs. Stage 3 will replace this placeholder with the LLM service call.
+    runs. Stage 3 supports a deterministic stub; live integration is deferred.
     """
-    _ = request
-    return TriageResponse(
-        category="other",
-        urgency="normal",
-        confidence=0.0,
-        reason="Placeholder response pending LLM integration.",
-    )
+    try:
+        return triage_support_message(request)
+    except ServiceUnavailableError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
