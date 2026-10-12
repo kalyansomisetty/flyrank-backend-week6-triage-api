@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 Category = Literal["billing", "bug", "feature", "other"]
@@ -32,6 +32,8 @@ class TriageRequest(BaseModel):
 class TriageResponse(BaseModel):
     """Only valid model output may be returned by the API."""
 
+    model_config = ConfigDict(extra="forbid")
+
     category: Category
     urgency: Urgency
     confidence: float = Field(ge=0, le=1)
@@ -42,4 +44,11 @@ class TriageResponse(BaseModel):
     def reason_must_not_be_blank(cls, value: str) -> str:
         if not value.strip():
             raise ValueError("reason must not be blank.")
+        return value
+
+    @field_validator("confidence", mode="before")
+    @classmethod
+    def confidence_must_be_numeric(cls, value: object) -> object:
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("confidence must be a number.")
         return value

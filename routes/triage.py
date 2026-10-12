@@ -4,7 +4,12 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException
 
-from llm.service import ProviderError, ServiceUnavailableError, triage_support_message
+from llm.service import (
+    InvalidModelOutputError,
+    ProviderError,
+    ServiceUnavailableError,
+    triage_support_message,
+)
 from schemas import TriageRequest, TriageResponse
 
 
@@ -22,5 +27,10 @@ def triage_message(request: TriageRequest) -> TriageResponse:
         return triage_support_message(request)
     except ServiceUnavailableError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except InvalidModelOutputError:
+        raise HTTPException(
+            status_code=422,
+            detail="LLM provider returned invalid structured output.",
+        )
     except ProviderError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc

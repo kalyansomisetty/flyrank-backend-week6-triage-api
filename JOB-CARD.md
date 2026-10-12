@@ -70,11 +70,14 @@ issues and requests. Use `low` for general feedback or non-urgent questions.
 ## Uncertainty and failure behavior
 
 If the message is ambiguous, use `other`, choose the most conservative
-urgency supported by the text, and lower confidence. The live-model path may
-make exactly one schema-repair call after invalid model output; that call is
+urgency supported by the text, and lower confidence. Every live-model response
+must parse as JSON and validate against the output schema. The live-model path
+makes exactly one schema-repair call after invalid model output; that call is
 separate from bounded transport retries. If repaired output is still invalid,
-write a quarantine log and return HTTP `422`. If live LLM access is disabled,
-return HTTP `503`; stub mode returns deterministic valid output without any
-model call. The future live-model service must check for a missing API key and
-fail safely before creating or calling an LLM client. Configuration may permit
-a missing key so that stub and disabled modes remain usable.
+write a bounded quarantine record without customer input and return HTTP
+`422`. Each model request emits safe structured operational metadata without
+raw customer or model content. If live LLM access is disabled, return HTTP
+`503`; stub mode returns deterministic valid output without any model call.
+The live-model service checks for a missing API key before creating or calling
+an LLM client. Configuration may permit a missing key so that stub and disabled
+modes remain usable.
