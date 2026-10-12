@@ -60,8 +60,8 @@ def get_settings(*, include_api_key: bool = True) -> Settings:
     """Load settings without printing or otherwise exposing secret values.
 
     A missing API key is allowed here so local stub and disabled modes work
-    without secrets. The future live-model service must fail safely before it
-    creates or calls an LLM client when live access has no configured key.
+    without secrets. The live-model service must fail safely before it creates
+    or calls an LLM client when live access has no configured key.
 
     Set ``include_api_key`` to False for decisions that do not need the key,
     such as stub mode. This avoids reading the secret unnecessarily.
