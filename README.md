@@ -218,3 +218,8 @@ current OpenRouter pricing before budgeting.
   ignored `logs/` directory in operational environments.
 - Add a larger, reviewed evaluation set before making production quality
   claims.
+
+## Author
+Venkata Naga Sri Kalyan Somisetty
+
+Backend AI Engineer Intern – FlyRank AI
