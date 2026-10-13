@@ -156,8 +156,7 @@ Actual offline stub-baseline result from this repository:
 | Combined accuracy | 12.5% (1/8) |
 | Failed/invalid cases | 0 |
 
-These numbers are a deterministic **stub baseline**, not LLM quality. No real
-model evaluation has been performed.
+These numbers are a deterministic **stub baseline**, not LLM quality.
 
 To intentionally run a live evaluation—which can consume provider quota—set
 `LLM_STUB=0`, `LLM_ENABLED=true`, and a local API key, then run:
@@ -174,10 +173,30 @@ ignored file:
 python -m evals.run_eval --output evals/results.json
 ```
 
+### Live model evaluation — October 13, 2026
+
+A live evaluation completed successfully on the same eight synthetic cases.
+The cases cover `billing`, `bug`, `feature`, and `other`, plus `low`,
+`normal`, and `high` urgency levels.
+
+| Metric | Result |
+| --- | --- |
+| Sample size | 8 cases |
+| Failed/invalid cases | 0 |
+| Category accuracy | 100.0% (8/8) |
+| Urgency accuracy | 50.0% (4/8) |
+| Combined category-plus-urgency accuracy | 50.0% (4/8) |
+
+Category classification was correct for all eight cases in this run. Urgency
+classification needs improvement. This is an initial benchmark on a small,
+synthetic dataset; it is not a production-quality performance claim and does
+not establish statistical significance, generalisation, or guaranteed future
+accuracy.
+
 ## Cost estimate
 
-No live calls have been made, so this project has no measured token average or
-measured cost. For a chosen live model, estimate each request as:
+The live evaluation did not record token totals or measured cost. For a chosen
+live model, estimate each request as:
 
 ```text
 (input_tokens / 1,000,000 × input_price_per_million)
@@ -197,5 +216,5 @@ current OpenRouter pricing before budgeting.
   semantics are not fully machine-enforced.
 - Quarantine records can contain bounded model output, so protect the local
   ignored `logs/` directory in operational environments.
-- Add a larger, reviewed evaluation set and run a documented live evaluation
-  before making production quality claims.
+- Add a larger, reviewed evaluation set before making production quality
+  claims.
